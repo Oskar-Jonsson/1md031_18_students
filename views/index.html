@@ -1,9 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>DELI-VERY</title>
-    </head>
-    <body>
-        <h1>Hello World!!!</h1>
-    </body>
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href=" css/style.css">
+    <link rel="stylesheet" href="css/deli-very.css">
+
+    <script type="text/javascript" src="js/menu.js"></script>
+
+    <script src="/vue/vue.js" defer></script>
+    <script src="js/js_script.js" defer></script>
+    <!--<script src="https://vuejs.org/js/vue.js"></script>-->
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="js/vue_script.js" defer></script>
+
+    <title>Deli(very)-Burger</title>
+    <meta charset="utf-8"/>
+
+  </head>
+
+  <body>
+    <main id = "myMenu">
+    <section>
+      <div class = "frontPic">
+        <img src="https://static.standard.co.uk/s3fs-public/thumbnails/image/2017/11/03/11/fogg-tavern.jpg" alt="Span" title="Deli(very)-Burger">
+      </div>
+        <h1 class = "welcomeText">
+          Welcome to Deli(very)-Burger!
+        </h1>
+
+    </section>
+
+    <section >
+      <div class = "menu">
+       <h1 v-bind:title="arbitraryVariableName" class = "menuDescription">
+       {{arbitraryVariableName}}
+       </h1>
+       <div class = "grid">
+        <div v-for= "menuitem in menuItems">
+          <p> {{menuitem.name}} </p>
+          <img v-bind:src = "menuitem.img">
+          <p> {{menuitem.kCal}} kCal </p>
+          <h3> {{menuitem.content}}</h3>
+          <ul>
+            <li>{{menuitem.protein}}</li>
+            <li>{{menuitem.veggies}}</li>
+            <li>{{menuitem.sauce}}</li>
+          </ul>
+
+          <p v-if="menuitem.lactose">
+            This burger conatins lactose!
+          </p>
+          <p v-if="menuitem.gluten">
+            This burger conatins gluten!
+          </p>
+          <form required= "required">
+          <input id = "chkBox" type = "checkbox" :value = "menuitem.name" v-model = "checkedItems" required= "required"> Add Burger!
+          </form>
+        </div>
+        </div>
+        </div>
+      </section>
+
+    <section  id="customerInfo">
+
+      <section class = "order">
+          <h1>{{orderTitle}}</h1>
+          <div v-for= "checkedItem in checkedItems">
+          <ul>
+            <li> {{checkedItem}} </li>
+          </ul>
+          </div>
+      </section>
+
+      <form required="required">
+
+
+      <section class = "customerInfo">
+        <h3>Customer Information</h3>
+        <p>
+          <label for="fullName"> Fullname:</label><br>
+          <input v-model = "fullName" type="text" id="fullName" name="fn" required="required" placeholder="Full name">
+        </p>
+        <p>
+          <label for="email">Email</label><br>
+          <input v-model = "email" type="email" id="email" name="em" required="required" placeholder="Email">
+        </p>
+        <!--<p>
+          <label for="Gatuadress">Gatuadress</label><br>
+          <input type="text" id="gatuadress" name="gs" placeholder="Gatuadress">
+        </p>
+        <p>
+          <label for="Husnummer">Husnummer</label><br>
+          <input type="number" id="husnummer" name="hs" placeholder="Husnummer">
+        </p>-->
+      </section>
+
+      <section class = "customerInfo">
+        <p>
+          <label for="paymentMethods">Payment Methods</label><br>
+          <select v-model = "paymentMethods" id="paymentMethods" name="pm" required = "required">
+            <option>Credit card</option>
+            <option>Swish</option>
+            <option>PayPal</option>
+          </select>
+        </p>
+      </section>
+
+      <section class = "customerInfo">
+        <label for="gender">Gender:</label><br>
+
+        <div><input v-model = "gender" type="radio" id="gender" name="gender" value="Male"  required= "requierd"> Male </div>
+        <div><input v-model = "gender" type="radio" id="gender" name="gender" value="Female"  required= "requierd"> Female</div>
+        <div><input v-model = "gender" type="radio" id="gender" name="gender" value="Undisclosed"  required= "requierd"> Undisclosed</div>
+        <div><input v-model = "gender" type="radio" id="gender" name="gender" value="Other" required= "requierd"> Other </div>
+      </section>
+
+      <section class = "map">
+        <h3> Where should we deliver?</h3>
+        <p> Mark your locaiton on the map!</p>
+        <div class="view-box">
+          <div id="dots" v-on:click="displayOrder">
+              <div v-bind:style="{left: coordinates.x + 'px', top: coordinates.y + 'px'}">
+                T
+              </div>
+          </div>
+        </div>
+      </section>
+
+</form>
+
+      <section class = "customerInfo">
+        <button  id ="submitButton" v-on:click = "addOrder">
+           <img src = "https://toppng.com/uploads/preview/check-mark-png-11553206004impjy81rdu.png" width = "20" heigt="20" >
+          Send order!
+        </button>
+      </section>
+
+      <section v-if = "submitButton" class = "submitButton" >
+        <h3>Order conformation:</h3>
+        <h4>Customer details </h4>
+        <div v-for = "object in customerInfo.slice(0,4)" >
+          {{object.value}}
+        </div>
+        <h4>Order summary</h4>
+        <div v-for= "checkedItem in checkedItems">
+        <ul>
+          <li> {{checkedItem}} </li>
+        </ul>
+      </section>
+
+    </section>
+
+  </main>
+    <footer>
+      <div class = "bottomtext">(C) BurgerTest, Oskar Jonsson 2020</div>
+    </footer>
+</body>
 </html>
