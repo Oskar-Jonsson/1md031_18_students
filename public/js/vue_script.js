@@ -17,6 +17,7 @@ var vm = new Vue({
     email: "",
     submitButton: false,
     coordinates: {x: -20, y: -20},
+    
   },
   methods: {
     check: function(event){
